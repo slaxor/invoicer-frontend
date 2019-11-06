@@ -4,6 +4,7 @@ v-container.elevation-12(fluid)
     v-list(dense)
       v-list-item
         v-list-item-content
+<<<<<<< HEAD
           v-text-field(label="Delivered At" v-model="deliveredAt")
           span {{ deliveredAt }}
           span {{ description }}
@@ -18,6 +19,27 @@ v-container.elevation-12(fluid)
       //-     v-text-field(label="Quantity" v-model="quantity")
       //-   v-list-item-content
       //-     v-text-field(label="Unit" v-model="unit")
+=======
+          v-date-picker(
+            v-if="openPicker"
+            label="Delivered At"
+            no-title
+            v-model="lineItem.deliveredAt"
+            :date-format="date => new Date(date).toDateString()"
+          )
+          v-text-field(v-model="lineItem.deliveredAt" @click="openPicker = !openPicker")
+      v-list-item
+        v-list-item-content
+          v-text-field(label="Price" v-model="lineItem.price")
+        v-list-item-content
+          v-text-field(label="VAT Rate" v-model="lineItem.vatRate")
+        v-list-item-content %
+      v-list-item
+        v-list-item-content
+          v-text-field(label="Quantity" v-model="lineItem.quantity")
+        v-list-item-content
+          v-text-field(label="Unit" v-model="lineItem.unit")
+>>>>>>> 570424b5529159b0ad109066db73df081e0b7d16
       v-list-item
         v-list-item-content.align-end
           v-text-field(label="Description" v-model="description")
@@ -25,6 +47,7 @@ v-container.elevation-12(fluid)
 
 <script>
 
+<<<<<<< HEAD
 import moment from 'moment';
 
 export default {
@@ -68,6 +91,13 @@ export default {
         }
       },
     },
+=======
+export default {
+  name: 'LineItemForm',
+  props: {
+    lineItem: Object,
+    openPicker: Boolean,
+>>>>>>> 570424b5529159b0ad109066db73df081e0b7d16
   },
   methods: {
     updateField(fieldKey, value) {

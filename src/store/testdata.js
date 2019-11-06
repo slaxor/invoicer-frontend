@@ -21,7 +21,7 @@ function generateLineItems() {
     li.push({
       id: 'liid'+zeroPad(i),
       invoiceId: 'invid'+ zeroPad(i%10),
-      deliveredAt: '2019-04-23T18:25:43.511Z',
+      deliveredAt: '2019-06-06',
       price: 17.95,
       quantity: 9,
       unit: 'Stunden',
