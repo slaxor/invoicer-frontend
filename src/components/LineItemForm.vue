@@ -4,7 +4,14 @@ v-container.elevation-12(fluid)
     v-list(dense)
       v-list-item
         v-list-item-content
-          v-text-field(label="Delivered At" v-model="formattedDeliveredAt")
+          v-date-picker(
+            v-if="openPicker"
+            label="Delivered At"
+            no-title
+            v-model="lineItem.deliveredAt"
+            :date-format="date => new Date(date).toDateString()"
+          )
+          v-text-field(v-model="lineItem.deliveredAt" @click="openPicker = !openPicker")
       v-list-item
         v-list-item-content
           v-text-field(label="Price" v-model="lineItem.price")
@@ -23,22 +30,11 @@ v-container.elevation-12(fluid)
 
 <script>
 
-import moment from 'moment';
 export default {
   name: 'LineItemForm',
   props: {
-    lineItem: Object
-  },
-  computed: {
-    formattedDeliveredAt: {
-      get () {
-        let fda = this.lineItem.deliveredAt;
-        return  moment(fda).format('DD.MM.YY');
-      },
-      set (fda) {
-        this.lineItem.deliveredAt = moment(fda).format();
-      },
-    },
+    lineItem: Object,
+    openPicker: Boolean,
   },
 };
 </script>

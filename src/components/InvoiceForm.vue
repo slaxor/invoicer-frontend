@@ -35,14 +35,17 @@ v-container
 </template>
 
 <script>
-import { mapGetters,mapState } from 'vuex';
+// import { mapGetters,mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import LineItemForm from '@/components/LineItemForm';
+import { mapMultiRowFields } from 'vuex-map-fields';
 
 export default {
   name: 'InvoiceForm',
   components: { LineItemForm },
   computed: {
-    ...mapState(['lineItems']),
+    ...mapMultiRowFields(['lineItems']),
+    // ...mapState(['lineItems']),
   },
   data () {
     return {
