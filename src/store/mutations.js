@@ -15,6 +15,13 @@ export default {
   setLineItem(state, lineItem) {
     state.lineItems = Object.assign({}, state.lineItems, lineItem);
   },
+  updateLineItemField(state, { id, field, value }) {
+    const item = state.lineItems.find(fItem => fItem.id === id);
+    // eslint-disable-next-line no-console
+    if (item) {
+      item[field] = value;
+    }
+  },
   // Error mutations
   addError (state, err) {
     state.errors.push(err);
