@@ -15,7 +15,8 @@ v-container
       v-list-item
         v-list-item-content Amount
         v-list-item-content.align-end {{ invoice.amount }}
-      v-list-item
+      v-divider.invoice-list-item-divider(dark)
+      v-list-item.invoice-line-items
         v-dialog(v-model="itemDialog" max-width="500px")
           LineItemForm(
             v-if="selectedItem"
@@ -162,5 +163,11 @@ export default {
   caption {
     text-align: left;
   }
+}
+.invoice-line-items {
+  padding-top: 12px;
+}
+.invoice-list-item-divider {
+  margin-top: 24px;
 }
 </style>
