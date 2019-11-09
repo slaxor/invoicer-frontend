@@ -17,7 +17,7 @@ export default {
   },
   updateLineItem(state, nextItem) {
     let prevItem = state.lineItems.find(item => nextItem.id === item.id);
-    prevItem && (prevItem = nextItem);
+    Object.assign(prevItem, nextItem);
   },
   // Error mutations
   addError (state, err) {
