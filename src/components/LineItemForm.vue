@@ -3,7 +3,7 @@ v-container.elevation-12(fluid)
   v-form
     v-card
       v-card-title
-        span.headline Line Item Form {{ item.id }}  - {{ id }}
+        span.headline {{ headline }}
 
       v-list(dense)
         v-list-item
@@ -20,8 +20,7 @@ v-container.elevation-12(fluid)
                 v-text-field(
                   readonly
                   v-on="on"
-                  :value="item.deliveredAt"
-
+                  :value="item.deliveredAt | formateDate"
                 )
 
               v-date-picker(
@@ -60,18 +59,28 @@ export default {
   },
   data () {
     return {
-      openPicker: false,
-      date: this.lineItem.deliveredAt,
       pickerOverlay: false,
-      item: {...this.lineItem},
-      id: this.lineItem.id
+      defaultItem: {
+        id: null,
+        deliveredAt: new Date().toISOString(),
+        price: 0,
+        vatRate: 19,
+        quantity: 0,
+        unit: 'Stunden',
+        description: 'Unknow'
+      }
     };
   },
+  computed: {
+    item () {
+      const { lineItem, defaultItem } = this;
+      return Object.assign({}, lineItem || defaultItem);
+    },
+    headline () {
+      return `${this.item.id ? 'Edit' : 'Create'} Line Item`;
+    }
+  },
   methods: {
-    // updateLineItem(fieldKey, value) {
-    //   // const nextLineItem = { [fieldKey]: value, id: this.lineItem.id };
-    //   // this.$store.commit('updateLineItem', nextLineItem);
-    // },
     handleSave () {
       this.$emit('save', this.item);
     },

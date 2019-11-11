@@ -50,6 +50,7 @@ v-container(fluid)
               v-list-item
                 v-list-item-content Due At
                 v-list-item-content.align-end {{ item.dueAt }}
+
   v-fab-transition
     v-btn(
       color="pink"

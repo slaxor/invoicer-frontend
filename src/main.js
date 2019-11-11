@@ -24,6 +24,11 @@ const router = new VueRouter({routes:[
 
 Vue.use(VueRouter);
 
+Vue.filter('formateDate', (value) => {
+  const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+  return new Date(value).toLocaleString('de-DE', options);
+});
+
 new Vue({
   vuetify,
   router,

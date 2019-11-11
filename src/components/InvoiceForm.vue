@@ -19,7 +19,6 @@ v-container
       v-list-item.invoice-line-items
         v-dialog(v-model="itemDialog" max-width="500px")
           LineItemForm(
-            v-if="selectedItem"
             :lineItem="selectedItem"
             @cancel="itemDialogClose"
             @save="handleSaveLineItem"
@@ -33,7 +32,9 @@ v-container
             absolute
             top
             right
-            fab)
+            fab
+            @click="createItem"
+          )
             v-icon mdi-plus
           v-data-table(
             :headers="headers"
@@ -87,7 +88,6 @@ export default {
     lineItems () {
       return this.$store.getters['lineItemsByInvoiceId'](this.invoice.id);
     }
-    // ...mapState(['lineItems']),
   },
   data () {
     return {
@@ -127,10 +127,6 @@ export default {
     formatePrice (value) {
       const val = (value/1).toFixed(2).replace('.', ',');
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    },
-    formateDate (value) {
-      const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-      return new Date(value).toLocaleString('de-DE', options);
     }
   },
   methods: {
@@ -142,17 +138,22 @@ export default {
       if (!this.itemDialog) { return; }
       this.itemDialog = false;
       this.selectedItem = null;
+
     },
     editItem (item) {
       this.selectedItem = item;
       this.itemDialog = true;
     },
     deleteItem (item) {
-      // eslint-disable-next-line
-      console.log('deleteItem: ', item);
+      this.$store.commit('deleteLineItem', item);
+    },
+    createItem() {
+      this.selectedItem = null;
+      this.itemDialog = true;
     },
     handleSaveLineItem (item) {
-      this.$store.commit('updateLineItem', item);
+      const commitType = item.id ? 'updateLineItem' : 'createLineItem';
+      this.$store.commit(commitType, { item, invoiceId: this.invoice.id });
       this.itemDialogClose();
     }
   },

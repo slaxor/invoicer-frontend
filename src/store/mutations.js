@@ -15,9 +15,20 @@ export default {
   setLineItem(state, lineItem) {
     state.lineItems = Object.assign({}, state.lineItems, lineItem);
   },
-  updateLineItem(state, nextItem) {
-    let prevItem = state.lineItems.find(item => nextItem.id === item.id);
-    Object.assign(prevItem, nextItem);
+  deleteLineItem(state, lineItem) {
+    const { lineItems } = state;
+    const index = lineItems.indexOf(lineItem);
+    index > -1 && lineItems.splice(index, 1);
+  },
+  updateLineItem(state, { item }) {
+    let prevItem = state.lineItems.find(found => found.id === item.id);
+    Object.assign(prevItem, item);
+  },
+  createLineItem(state, { item, invoiceId }) {
+    // Remove `fakeId` in production and ommit id from `item` or generate a new one here
+    const fakeId = `liid${this.state.lineItems.length.toString().padStart(3, '0')}`;
+    const newItem = { ...item, id: fakeId, invoiceId };
+    state.lineItems.push(newItem);
   },
   // Error mutations
   addError (state, err) {
