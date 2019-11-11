@@ -41,7 +41,9 @@ v-container
             caption="Line Items"
             :items="lineItems"
             itemKey="id"
-            sort-by="deliveredAt"
+            disable-sort
+            disable-pagination
+            hide-default-footer
             class="elevation-1 line-items-table"
           )
             template( v-slot:item.vatRate="{ item }") {{ item.vatRate }}%
@@ -86,7 +88,8 @@ export default {
   components: { LineItemForm },
   computed: {
     lineItems () {
-      return this.$store.getters['lineItemsByInvoiceId'](this.invoice.id);
+      const { $store, invoice } = this;
+      return $store.getters['lineItemsByInvoiceId'](invoice.id);
     }
   },
   data () {
@@ -99,18 +102,13 @@ export default {
       },
       selectedItem: null,
       headers: [
-        {
-          text: 'Delivered At',
-          align: 'left',
-          sortable: true,
-          value: 'deliveredAt',
-        },
-        { text: 'Description', value: 'description', sortable: true },
-        { text: 'Quantity', value: 'quantity', sortable: true },
-        { text: 'Unit', value: 'unit', sortable: false },
-        { text: 'VAT Rate', value: 'vatRate', sortable: false, class: 'line-items-table__vat-rate' },
-        { text: 'Price', value: 'price', sortable: true },
-        { text: 'Actions', value: 'action', sortable: false },
+        { text: 'Delivered At', value: 'deliveredAt' },
+        { text: 'Description', value: 'description' },
+        { text: 'Quantity', value: 'quantity' },
+        { text: 'Unit', value: 'unit' },
+        { text: 'VAT Rate', value: 'vatRate' },
+        { text: 'Price', value: 'price' },
+        { text: 'Actions', value: 'action' },
       ]
     };
   },
@@ -137,7 +135,9 @@ export default {
     itemDialogClose () {
       if (!this.itemDialog) { return; }
       this.itemDialog = false;
-      this.selectedItem = null;
+      setTimeout(() => { // timeout is needed because flicker-effect on close animation -> TODO: find better solution
+        this.selectedItem = null;
+      }, 200);
 
     },
     editItem (item) {

@@ -10,7 +10,7 @@ v-container.elevation-12(fluid)
           v-list-item-content
             v-menu(
               v-model="pickerOverlay"
-              :close-on-content-click="false"
+
               transition="scale-transition"
               offset-y
               max-width="290px"
